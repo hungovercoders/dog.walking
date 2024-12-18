@@ -1,6 +1,8 @@
 version: '3.9'
 services:
 
+  # TODO: can we add environment variables for the contract file and the spectral file, reusing the same container?
+
   spectral: 
     image: stoplight/spectral:5
     command: 'lint /tmp/dog_walker.1.oas.yaml'

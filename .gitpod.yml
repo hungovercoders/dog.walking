@@ -8,3 +8,5 @@ vscode:
     - oderwat.indent-rainbow
     - ms-azuretools.vscode-docker
     - stoplight.spectral
+    - gruntfuggly.todo-tree
+    - wayou.vscode-todo-highlight
