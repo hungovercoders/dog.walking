@@ -1,0 +1,12 @@
+extends: ["spectral:oas", "spectral:asyncapi", "spectral:arazzo"]
+
+# TODO: unable to ignore invalid requests
+# rules:
+#   skip-ignored-examples:
+#     description: "Skip examples with x-lint-ignore: true"
+#     severity: off
+#     given: "$..examples[?(@.['x-lint-ignore'] == true)]"
+#     then:
+#       field: value
+#       function: falsy
+

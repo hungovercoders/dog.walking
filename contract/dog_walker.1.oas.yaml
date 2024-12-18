@@ -5,6 +5,10 @@ info:
   title: Dog Walker API
   description: Dog profile and scheduler management for dog walkers.
   version: 1.0.0
+  contact:
+    name: Dog Walker API Support
+    url: https://dogusaurus.com/support
+    email: info@dogwalker.com
 servers:
   - url: http://localhost:8080
     description: Mock server for development purposes.
@@ -14,6 +18,7 @@ tags:
 paths:
   /dogs:
     post:
+      description: Add a new dog profile.
       tags:
         - Dogs
       summary: Add a dog profile
@@ -55,69 +60,72 @@ paths:
                     yearOfBirth: 2002
                     notes: Harvey is a good boy
                     breed: [German Shepherd, Labrador Retriever]
-                invalidNameRequest:
-                  summary: Invalid name request
-                  value:
-                    name: Mika
-                    sex: Female
-                    yearOfBirth: 2002
-                    breed: [Staffordshire Bull Terrier]
-                invalidSexRequest:
-                  summary: Invalid sex request
-                  value:
-                    name: Mika
-                    sex: Cat
-                    yearOfBirth: 2014
-                    breed: [Staffordshire Bull Terrier]
-                invalidYearOfBirthRequest:
-                  summary: Invalid year of birth request
-                  value:
-                    name: Mika
-                    sex: Female
-                    yearOfBirth: 1900
-                    breed: [Staffordshire Bull Terrier]
-                invalidBreedRequest:
-                  summary: Invalid breed request
-                  value:
-                    name: Mika
-                    sex: Female
-                    yearOfBirth: 2014
-                    breed: [Persian]
-                missingName:
-                  summary: Request with missing name field
-                  value:
-                    sex: Female
-                    yearOfBirth: 2014
-                    breed: [Staffordshire Bull Terrier]
-                missingSex:
-                  summary: Request with missing sex field
-                  value:
-                    name: Mika
-                    yearOfBirth: 2014
-                    breed: [Staffordshire Bull Terrier]
-                missingAge:
-                  summary: Request with missing year of birth field
-                  value:
-                    sex: Female
-                    name: Mika
-                    breed: [Staffordshire Bull Terrier]
-                missingBreed:
-                  summary: Request with missing breed field
-                  value:
-                    sex: Female
-                    name: Mika
-                    yearOfBirth: 2014
-                invalidNotesLength:
-                  summary: Request with notes exceeding maximum length
-                  value:
-                    name: Mika
-                    yearOfBirth: 2014
-                    breed: [Staffordshire Bull Terrier]
-                    notes: >
-                     Mika is a good girl. Mika is a good girl. Mika is a good girl. Mika is a good girl. Mika is a good girl. Mika is a good girl. 
-                     Mika is a good girl. Mika is a good girl. Mika is a good girl. Mika is a good girl. Mika is a good girl. Mika is a good girl. 
-                     Mika is a good girl. Mika is a good girl. Mika is a good girl. Mika is a good girl. Mika is a good girl. Mika is a good girl. 
-                     Mika is a good girl. Mika is a good girl. Mika is a good girl. Mika is a good girl. Mika is a good girl. Mika is a good girl. 
+                # TODO: unable to ignore invalid requests
+                # invalidNameRequest:
+                #   summary: Invalid name request
+                #   x-lint-ignore: true
+                #   value:
+                #     name: Mikaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+                #     sex: Female
+                #     yearOfBirth: 2002
+                #     breed: [Staffordshire Bull Terrier]
+                # invalidSexRequest:
+                #   summary: Invalid sex request
+                #   value:
+                #     name: Mika
+                #     sex: Cat
+                #     yearOfBirth: 2014
+                #     breed: [Staffordshire Bull Terrier]
+                # invalidYearOfBirthRequest:
+                #   summary: Invalid year of birth request
+                #   value:
+                #     name: Mika
+                #     sex: Female
+                #     yearOfBirth: 1900
+                #     breed: [Staffordshire Bull Terrier]
+                # invalidBreedRequest:
+                #   summary: Invalid breed request
+                #   value:
+                #     name: Mika
+                #     sex: Female
+                #     yearOfBirth: 2014
+                #     breed: [Persian]
+                # missingName:
+                #   summary: Request with missing name field
+                #   value:
+                #     sex: Female
+                #     yearOfBirth: 2014
+                #     breed: [Staffordshire Bull Terrier]
+                # missingSex:
+                #   summary: Request with missing sex field
+                #   value:
+                #     name: Mika
+                #     yearOfBirth: 2014
+                #     breed: [Staffordshire Bull Terrier]
+                # missingAge:
+                #   summary: Request with missing year of birth field
+                #   value:
+                #     sex: Female
+                #     name: Mika
+                #     breed: [Staffordshire Bull Terrier]
+                # missingBreed:
+                #   summary: Request with missing breed field
+                #   value:
+                #     sex: Female
+                #     name: Mika
+                #     yearOfBirth: 2014
+                # invalidNotesLength:
+                #   summary: Request with notes exceeding maximum length
+                #   value:
+                #     name: Mika
+                #     sex: Female
+                #     yearOfBirth: 2014
+                #     breed: [Staffordshire Bull Terrier]
+                #     notes: >
+                #      Mika is a good girl. Mika is a good girl. Mika is a good girl. Mika is a good girl. Mika is a good girl. Mika is a good girl. 
+                #      Mika is a good girl. Mika is a good girl. Mika is a good girl. Mika is a good girl. Mika is a good girl. Mika is a good girl. 
+                #      Mika is a good girl. Mika is a good girl. Mika is a good girl. Mika is a good girl. Mika is a good girl. Mika is a good girl. 
+                #      Mika is a good girl. Mika is a good girl. Mika is a good girl. Mika is a good girl. Mika is a good girl. Mika is a good girl. 
       responses:
         "201":
           description: Dog added successfully.
@@ -230,6 +238,7 @@ paths:
         "500":
           $ref: "#/components/responses/500"
     get:
+      description: Get a list of all dog profiles.
       tags:
         - Dogs
       summary: List dog profiles
@@ -241,6 +250,9 @@ paths:
             application/json:
               schema:
                 type: object
+                required:
+                  - data
+                  - pagination
                 properties:
                   data:
                     type: object
@@ -249,44 +261,64 @@ paths:
                         type: array
                         items:
                           $ref: "#/components/schemas/DogWithId"
+                  pagination:
+                    type: object
+                    properties:
+                      pagination:
+                        type: object
+                        items:
+                          $ref: "#/components/schemas/pagination"
               examples:
                 allDogs:
-                  summary: All dogs response
+                  summary: List of all dogs
                   value:
-                    - id: mika-2015-0001
-                      name: Mika
-                      sex: Female
-                      yearOfBirth: 2015
-                      breed: [Staffordshire Bull Terrier]
-                    - id: harvey-2002-0001
-                      name: Harvey
-                      sex: Male
-                      yearOfBirth: 2002
-                      breed: [German Shepherd, Labrador Retriever]
-                    - id: betty-2020-0001
-                      name: Betty
-                      sex: Female
-                      yearOfBirth: 2020
-                      breed: [Poodle, Labrador Retriever]
-                    - id: bandit-2014-0001
-                      name: Bandit
-                      sex: Male
-                      yearOfBirth: 2014
-                      breed: [Cocker Spaniel]
+                    data:
+                      dogs:
+                      - id: mika-2015-0001
+                        name: Mika
+                        sex: Female
+                        yearOfBirth: 2015
+                        breed: [Staffordshire Bull Terrier]
+                      - id: harvey-2002-0001
+                        name: Harvey
+                        sex: Male
+                        yearOfBirth: 2002
+                        breed: [German Shepherd, Labrador Retriever]
+                      - id: betty-2020-0001
+                        name: Betty
+                        sex: Female
+                        yearOfBirth: 2020
+                        breed: [Poodle, Labrador Retriever]
+                      - id: bandit-2014-0001
+                        name: Bandit
+                        sex: Male
+                        yearOfBirth: 2014
+                        breed: [Cocker Spaniel]
+                    pagination:
+                      total: 4
+                      currentPage: 1
+                      perPage: 10
                 oneDog:
                   summary: Single dog response
                   value:
-                    - id: mika-2015-0001
-                      name: Mika
-                      sex: Female
-                      yearOfBirth: 2015
-                      breed: [Staffordshire Bull Terrier]
+                    data:
+                      dogs:
+                        - id: mika-2015-0001
+                          name: Mika
+                          sex: Female
+                          yearOfBirth: 2015
+                          breed: [Staffordshire Bull Terrier]
+                    pagination:
+                      total: 1
+                      currentPage: 1
+                      perPage: 10
         "401":
           $ref: "#/components/responses/401"
         "500":
           $ref: "#/components/responses/500"
   /dogs/{dogId}:
     get:
+      description: Get details for a specific dog profile.
       tags:
         - Dogs
       summary: Get specific dog details
@@ -304,20 +336,19 @@ paths:
           content:
             application/json:
               schema:
-                type: object
                 $ref: "#/components/schemas/Dog"
               examples:
                 mika:
                   summary: Mika response
                   value:
-                    - name: Mika
-                      sex: Female
-                      yearOfBirth: 2015
-                      breed: [Staffordshire Bull Terrier]
+                    name: Mika
+                    sex: Female
+                    yearOfBirth: 2015
+                    breed: [Staffordshire Bull Terrier]
                 harvey:
                   summary: Harvey response
                   value:
-                    - name: Harvey
+                      name: Harvey
                       sex: Male
                       yearOfBirth: 2002
                       breed: [German Shepherd, Labrador Retriever]
@@ -329,6 +360,7 @@ paths:
           $ref: "#/components/responses/500"
 
     delete:
+      description: Remove a specific dog profile.
       tags:
         - Dogs
       summary: Remove a dog profile
@@ -357,6 +389,7 @@ paths:
           $ref: "#/components/responses/500"
 
     put:
+      description: Update details for a specific dog profile.
       tags:
         - Dogs
       summary: Update dog details for a specific dog
@@ -567,6 +600,19 @@ components:
               type: string
               description: Unique identifier for the dog.
               example: mika-2015-0001
+
+    pagination:
+      type: object
+      properties:
+        total:
+          type: integer
+          description: Total number of dogs available.
+        currentPage:
+          type: integer
+          description: The current page being viewed.
+        perPage:
+          type: integer
+          description: Number of dogs per page.
 
   responses:
     "401":

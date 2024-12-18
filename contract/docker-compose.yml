@@ -1,10 +1,28 @@
 version: '3.9'
 services:
+
+  spectral: 
+    image: stoplight/spectral:5
+    command: 'lint /tmp/dog_walker.1.oas.yaml'
+    volumes:
+      - ./dog_walker.1.oas.yaml:/tmp/dog_walker.1.oas.yaml:ro
+      - ./.spectral.yaml:/tmp/.spectral.yaml:ro
   prism:
     image: stoplight/prism:4
     command: 'mock -h 0.0.0.0 /tmp/dog_walker.1.oas.yaml'
     volumes:
       - ./dog_walker.1.oas.yaml:/tmp/dog_walker.1.oas.yaml:ro
     ports:
-      # Serve the mocked API locally as available on port 8080
-      - '8080:4010'
+      - '8080:4010' # Serve the mocked API locally as available on port 8080
+
+  # TODO: need to get request-response testing working with something 
+  # schemathesis:
+  #   image: schemathesis/schemathesis:stable
+  #   depends_on:
+  #     - prism
+  #   volumes:
+  #     - ./dog_walker.1.oas.yaml:/tmp/dog_walker.1.oas.yaml:ro
+  #   command: >
+  #     run
+  #     --base-url=http://prism:8080
+  #     /tmp/dog_walker.1.oas.yaml
