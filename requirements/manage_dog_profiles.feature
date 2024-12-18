@@ -1,6 +1,6 @@
 Feature: Manage dog profiles
 
-  As a dog owner or a dog walker
+  As a dog walker
   I want to be able to add a dog to my account and set its name, breed, profile image, and details
   Or I want to update an existing dog's name, breed, profile image, and details
   Or I want to remove a dog
@@ -34,3 +34,9 @@ Feature: Manage dog profiles
     And I click the "Delete" button
     And I confirm the deletion
     Then I should no longer see "Buddy Jr." listed in my dog profiles
+
+Scenario: View all available dogs
+    Given I am logged in as a "Dog Walker"
+    And I have multiple dogs
+    When I navigate to the "My Dogs" page
+    Then I should see a list of all the dogs associated with my account

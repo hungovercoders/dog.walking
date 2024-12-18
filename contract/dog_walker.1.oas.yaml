@@ -1,0 +1,596 @@
+openapi: 3.0.3
+security:
+  - ApiKeyAuth: []
+info:
+  title: Dog Walker API
+  description: Dog profile and scheduler management for dog walkers.
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+    description: Mock server for development purposes.
+tags:
+  - name: Dogs
+    description: Operations related to dog profiles
+paths:
+  /dogs:
+    post:
+      tags:
+        - Dogs
+      summary: Add a dog profile
+      operationId: addDog
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Dog"
+            examples:
+                mikaRequestWithoutNotes:
+                  summary: Mika Request
+                  value:
+                    name: Mika
+                    sex: Female
+                    yearOfBirth: 2014
+                    breed: [Staffordshire Bull Terrier]
+                harveyRequestWithoutNotes:
+                  summary: Harvey Request
+                  value:
+                    name: Harvey
+                    sex: Male
+                    yearOfBirth: 2002
+                    breed: [German Shepherd, Labrador Retriever]
+                mikaRequestWithNotes:
+                  summary: Mika Request with Notes
+                  value:
+                    name: Mika
+                    sex: Female
+                    yearOfBirth: 2014
+                    notes: Mika is a good girl
+                    breed: [Staffordshire Bull Terrier]
+                harveyRequestWithNotes:
+                  summary: Prancer Request with notes
+                  value:
+                    name: Harvey
+                    sex: Male
+                    yearOfBirth: 2002
+                    notes: Harvey is a good boy
+                    breed: [German Shepherd, Labrador Retriever]
+                invalidNameRequest:
+                  summary: Invalid name request
+                  value:
+                    name: Mika
+                    sex: Female
+                    yearOfBirth: 2002
+                    breed: [Staffordshire Bull Terrier]
+                invalidSexRequest:
+                  summary: Invalid sex request
+                  value:
+                    name: Mika
+                    sex: Cat
+                    yearOfBirth: 2014
+                    breed: [Staffordshire Bull Terrier]
+                invalidYearOfBirthRequest:
+                  summary: Invalid year of birth request
+                  value:
+                    name: Mika
+                    sex: Female
+                    yearOfBirth: 1900
+                    breed: [Staffordshire Bull Terrier]
+                invalidBreedRequest:
+                  summary: Invalid breed request
+                  value:
+                    name: Mika
+                    sex: Female
+                    yearOfBirth: 2014
+                    breed: [Persian]
+                missingName:
+                  summary: Request with missing name field
+                  value:
+                    sex: Female
+                    yearOfBirth: 2014
+                    breed: [Staffordshire Bull Terrier]
+                missingSex:
+                  summary: Request with missing sex field
+                  value:
+                    name: Mika
+                    yearOfBirth: 2014
+                    breed: [Staffordshire Bull Terrier]
+                missingAge:
+                  summary: Request with missing year of birth field
+                  value:
+                    sex: Female
+                    name: Mika
+                    breed: [Staffordshire Bull Terrier]
+                missingBreed:
+                  summary: Request with missing breed field
+                  value:
+                    sex: Female
+                    name: Mika
+                    yearOfBirth: 2014
+                invalidNotesLength:
+                  summary: Request with notes exceeding maximum length
+                  value:
+                    name: Mika
+                    yearOfBirth: 2014
+                    breed: [Staffordshire Bull Terrier]
+                    notes: >
+                     Mika is a good girl. Mika is a good girl. Mika is a good girl. Mika is a good girl. Mika is a good girl. Mika is a good girl. 
+                     Mika is a good girl. Mika is a good girl. Mika is a good girl. Mika is a good girl. Mika is a good girl. Mika is a good girl. 
+                     Mika is a good girl. Mika is a good girl. Mika is a good girl. Mika is a good girl. Mika is a good girl. Mika is a good girl. 
+                     Mika is a good girl. Mika is a good girl. Mika is a good girl. Mika is a good girl. Mika is a good girl. Mika is a good girl. 
+      responses:
+        "201":
+          description: Dog added successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DogWithId'
+              examples:
+                mika:
+                  summary: Response for successfully adding Rudolph
+                  value:
+                    id: mika-2015-0001
+                    name: Mika
+                    sex: Female
+                    yearOfBirth: 2014
+                    breed: [Staffordshire Bull Terrier]
+                harvey:
+                  summary: Response for successfully adding Harvey
+                  value:
+                    id: harvey-2002-0001
+                    name: Harvey
+                    sex: Male
+                    yearOfBirth: 2002
+                    breed: [German Shepherd, Labrador Retriever]
+                successfulMikaResponseWithNotes:
+                  summary: Response for successfully adding Mika with notes
+                  value:
+                    id: mika-2015-0001
+                    name: Mika
+                    sex: Female
+                    yearOfBirth: 2014
+                    breed: [Staffordshire Bull Terrier]
+                    notes: Mika is a good girl.
+                successfulHarveyResponseWithNotes:
+                  summary: Response for successfully adding Harvey with notes
+                  value:
+                    id: harvey-2002-0001
+                    name: Harvey
+                    sex: Male
+                    yearOfBirth: 2002
+                    breed: [German Shepherd, Labrador Retriever]
+                    notes: Harvey is a good boy.
+        "400":
+          description: Bad request - validation errors.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: General error message for the bad request.
+                  details:
+                    type: array
+                    maxItems: 3
+                    items:
+                      type: string
+                      description: Specific error details.
+              examples:
+                invalidNameError:
+                  summary: Error response for invalid name
+                  value:
+                    error: Invalid request body
+                    details:
+                      - "The 'name' field must be between 2 and 50 characters long."
+                invalidYearOfBirthError:
+                  summary: Error response for invalid year of birth
+                  value:
+                    error: Invalid request body
+                    details:
+                      - The 'yearOfBirth' field must be an integer between 2000 and 2025.
+                invalidBreedError:
+                  summary: Error response for invalid nose colour
+                  value:
+                    error: Invalid request body
+                    details:
+                      - "The 'breed' field must be one of #/components/schemas/NewDog/properties/breed/enum."
+                missingNameError:
+                  summary: Error response for missing name field
+                  value:
+                    error: Invalid request body
+                    details:
+                      - The 'name' field is required.
+                missingYearOfBirthError:
+                  summary: Error response for missing yearOfBirth field
+                  value:
+                    error: Invalid request body
+                    details:
+                      - The 'yearOfBirth' field is required.
+                missingBreedError:
+                  summary: Error response for missing breed field
+                  value:
+                    error: Invalid request body
+                    details:
+                      - The 'breed' field is required.
+                invalidNotesLength:
+                  summary: Error response for notes exceeding maximum length
+                  value:
+                    error: Invalid request body
+                    details:
+                      - The 'notes' field must be at most 100 characters long.
+        "401":
+          $ref: "#/components/responses/401"
+        "500":
+          $ref: "#/components/responses/500"
+    get:
+      tags:
+        - Dogs
+      summary: List dog profiles
+      operationId: getAllDogs
+      responses:
+        "200":
+          description: List of all dogs.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/DogWithId"
+              examples:
+                oneDog:
+                  summary: Single dog response
+                  value:
+                    - id: mika-2015-0001
+                      name: Mika
+                      yearOfBirth: 2015
+                      breed: [Staffordshire Bull Terrier]
+                allDogs:
+                  summary: All dogs response
+                  value:
+                    - id: mika-2015-0001
+                      name: Mika
+                      yearOfBirth: 2015
+                      breed: [Staffordshire Bull Terrier]
+                    - id: harvey-2002-0001
+                      name: Harvey
+                      yearOfBirth: 2002
+                      breed: [German Shepherd, Labrador Retriever]
+                    - id: betty-2020-0001
+                      name: Betty
+                      yearOfBirth: 2020
+                      breed: [Poodle, Labrador Retriever]
+                    - id: bandit-2014-0001
+                      name: Bandit
+                      yearOfBirth: 2014
+                      breed: [Cocker Spaniel]
+        "401":
+          $ref: "#/components/responses/401"
+        "500":
+          $ref: "#/components/responses/500"
+  /dogs/{dogId}:
+    get:
+      tags:
+        - Dogs
+      summary: Get specific dog details
+      operationId: getDog
+      parameters:
+        - in: path
+          name: dogId
+          required: true
+          schema:
+            type: string
+          description: The unique identifier of the dog
+      responses:
+        "200":
+          description: Specific dog details.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Dog"
+              examples:
+                mika:
+                  summary: Mika response
+                  value:
+                    - name: Mika
+                      yearOfBirth: 2015
+                      breed: [Staffordshire Bull Terrier]
+                harvey:
+                  summary: Harvey response
+                  value:
+                    - name: Harvey
+                      yearOfBirth: 2002
+                      breed: [German Shepherd, Labrador Retriever]
+        "401":
+          $ref: "#/components/responses/401"
+        "404":
+          $ref: "#/components/responses/Dog_404"
+        "500":
+          $ref: "#/components/responses/500"
+
+    delete:
+      tags:
+        - Dogs
+      summary: Remove a dog profile
+      operationId: removeDogProfile
+      parameters:
+        - in: path
+          name: dogId
+          required: true
+          schema:
+            type: string
+          description: The unique identifier of the dog
+      responses:
+        "204":
+          description: Dog removed successfully.
+          content:
+            application/json:
+              examples:
+                removedMika:
+                  summary: Response for successfully removing Mika
+                  value: {}
+        "401":
+          $ref: "#/components/responses/401"
+        "404":
+          $ref: "#/components/responses/Dog_404"
+        "500":
+          $ref: "#/components/responses/500"
+
+    put:
+      tags:
+        - Dogs
+      summary: Update dog details for a specific dog
+      operationId: updateDogProfile
+      parameters:
+        - in: path
+          name: dogId
+          required: true
+          schema:
+            type: string
+          description: The unique identifier of the dog
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Dog"
+      responses:
+        "200":
+          description: Dog updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DogWithId"
+              examples:
+                updatedMika:
+                  summary: Response for successfully updating Mika
+                  value:
+                    id: mika-2015-0001
+                    name: Mika
+                    sex: Female
+                    yearOfBirth: 2014
+                    breed: [Staffordshire Bull Terrier]
+                    notes: Mika is a good girl.
+        "401":
+          $ref: "#/components/responses/401"
+        "404":
+          $ref: "#/components/responses/Dog_404"
+        "500":
+          $ref: "#/components/responses/500"
+
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+  schemas:
+    Dog:
+      type: object
+      required:
+        - name
+        - sex
+        - yearOfBirth
+        - breed
+      properties:
+        name:
+          type: string
+          description: Name of the dog.
+          example: Mika
+          minLength: 2
+          maxLength: 20
+        sex:
+          type: string
+          description: Sex of the dog.
+          example: Female
+          enum:
+            - Male
+            - Female
+        yearOfBirth:
+          type: integer
+          description: Year of birth of the dog.
+          example: 2015
+          minimum: 2000
+          maximum: 2025
+        breed:
+          type: array
+          description: Breed of the dog.
+          example: Staffordshire Bull Terrier
+          enum:
+             - Afghan Hound
+             - Airedale Terrier
+             - Akita
+             - Alaskan Malamute
+             - Australian Shepherd
+             - Basenji
+             - Beagle
+             - Belgian Malinois
+             - Belgian Sheepdog
+             - Belgian Tervuren
+             - Bernese Mountain Dog
+             - Bichon Frise
+             - Bloodhound
+             - Border Collie
+             - Borzoi
+             - Boston Terrier
+             - Bouvier des Flandres
+             - Boxer
+             - Briard
+             - Brittany
+             - Brussels Griffon
+             - Bull Terrier
+             - Bullmastiff
+             - Cairn Terrier
+             - Cardigan Welsh Corgi
+             - Cavalier King Charles Spaniel
+             - Chesapeake Bay Retriever
+             - Chihuahua
+             - Chinese Crested
+             - Chinese Shar-Pei
+             - Clumber Spaniel
+             - Cocker Spaniel
+             - Curly-Coated Retriever
+             - Dachshund
+             - Dalmatian
+             - Doberman Pinscher
+             - English Cocker Spaniel
+             - English Foxhound
+             - English Setter
+             - English Springer Spaniel
+             - French Bulldog
+             - German Shepherd
+             - Golden Retriever
+             - Gordon Setter
+             - Great Dane
+             - Havanese
+             - Irish Setter
+             - Irish Wolfhound
+             - Italian Greyhound
+             - Japanese Chin
+             - Keeshond
+             - Komondor
+             - Kuvasz
+             - Lakeland Terrier
+             - Labrador Retriever
+             - Leonberger
+             - Lhasa Apso
+             - Maltese
+             - Manchester Terrier
+             - Miniature Schnauzer
+             - Neapolitan Mastiff
+             - Newfoundland
+             - Norfolk Terrier
+             - Norwich Terrier
+             - Papillon
+             - Pembroke Welsh Corgi
+             - Petit Basset Griffon Vendeen
+             - Pharaoh Hound
+             - Plott
+             - Pointer
+             - Polish Lowland Sheepdog
+             - Pomeranian
+             - Portuguese Water Dog
+             - Pug
+             - Puli
+             - Redbone Coonhound
+             - Rhodesian Ridgeback
+             - Rottweiler
+             - Saint Bernard
+             - Saluki
+             - Samoyed
+             - Schipperke
+             - Scottish Deerhound
+             - Scottish Terrier
+             - Sealyham Terrier
+             - Setter
+             - Shetland Sheepdog
+             - Shiba Inu
+             - Shih Tzu
+             - Siberian Husky
+             - Silky Terrier
+             - Skye Terrier
+             - Sloughi
+             - Soft Coated Wheaten Terrier
+             - Staffordshire Bull Terrier
+             - Standard Schnauzer
+             - Sussex Spaniel
+             - Swedish Vallhund
+             - Tibetan Mastiff
+             - Tibetan Spaniel
+             - Tibetan Terrier
+             - Toy Fox Terrier
+             - Treeing Walker Coonhound
+             - Vizsla
+             - Weimaraner
+             - Welsh Corgi
+             - West Highland White Terrier
+             - Whippet
+             - Wirehaired Pointing Griffon
+             - Xoloitzcuintli
+             - Yorkshire Terrier
+        notes:
+          type: string
+          description: Additional notes about the dog.
+          example: Mika is a good girl.
+          maxLength: 100
+
+    DogWithId:
+      allOf:
+        - $ref: "#/components/schemas/Dog"
+        - type: object
+          properties:
+            id:
+              type: string
+              description: Unique identifier for the dog.
+              example: mika-2015-0001
+
+  responses:
+    "401":
+      description: Unauthorized - API key is missing or invalid.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                description: A message indicating authorization failure.
+          examples:
+            missingApiKey:
+              summary: Missing API Key
+              value:
+                error: Unauthorized - API key is required.
+    "Dog_404":
+      description: Not Found - dog with the specified ID does not exist.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                description: A message indicating that the resource was not found.
+          examples:
+            dogNotFound:
+              summary: Dog not found
+              value:
+                error: Dog with the specified ID was not found.
+    "500":
+      description: Internal Server Error - something went wrong on the server side.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                description: General error message indicating a server issue.
+              message:
+                type: string
+                description: Additional details about the error, if available.
+          examples:
+            serverErrorExample:
+              summary: Example response for a server error
+              value:
+                error: Internal Server Error
+                message: An unexpected error occurred. Please try again later.
