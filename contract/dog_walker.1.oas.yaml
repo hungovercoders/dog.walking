@@ -1,6 +1,6 @@
 openapi: 3.0.3
-security:
-  - ApiKeyAuth: []
+# security:
+#   - ApiKeyAuth: []
 info:
   title: Dog Walker API
   description: Dog profile and scheduler management for dog walkers.
@@ -183,6 +183,12 @@ paths:
                     error: Invalid request body
                     details:
                       - "The 'name' field must be between 2 and 50 characters long."
+                invalidSex:
+                  summary: Error response for invalid sex
+                  value:
+                    error: Invalid request body
+                    details:
+                      - The 'sex' field must be one of #/components/schemas/NewDog/properties/sex/enum."
                 invalidYearOfBirthError:
                   summary: Error response for invalid year of birth
                   value:
@@ -190,7 +196,7 @@ paths:
                     details:
                       - The 'yearOfBirth' field must be an integer between 2000 and 2025.
                 invalidBreedError:
-                  summary: Error response for invalid nose colour
+                  summary: Error response for invalid breed
                   value:
                     error: Invalid request body
                     details:
@@ -234,36 +240,47 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/DogWithId"
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      dogs:
+                        type: array
+                        items:
+                          $ref: "#/components/schemas/DogWithId"
               examples:
-                oneDog:
-                  summary: Single dog response
-                  value:
-                    - id: mika-2015-0001
-                      name: Mika
-                      yearOfBirth: 2015
-                      breed: [Staffordshire Bull Terrier]
                 allDogs:
                   summary: All dogs response
                   value:
                     - id: mika-2015-0001
                       name: Mika
+                      sex: Female
                       yearOfBirth: 2015
                       breed: [Staffordshire Bull Terrier]
                     - id: harvey-2002-0001
                       name: Harvey
+                      sex: Male
                       yearOfBirth: 2002
                       breed: [German Shepherd, Labrador Retriever]
                     - id: betty-2020-0001
                       name: Betty
+                      sex: Female
                       yearOfBirth: 2020
                       breed: [Poodle, Labrador Retriever]
                     - id: bandit-2014-0001
                       name: Bandit
+                      sex: Male
                       yearOfBirth: 2014
                       breed: [Cocker Spaniel]
+                oneDog:
+                  summary: Single dog response
+                  value:
+                    - id: mika-2015-0001
+                      name: Mika
+                      sex: Female
+                      yearOfBirth: 2015
+                      breed: [Staffordshire Bull Terrier]
         "401":
           $ref: "#/components/responses/401"
         "500":
@@ -287,18 +304,21 @@ paths:
           content:
             application/json:
               schema:
+                type: object
                 $ref: "#/components/schemas/Dog"
               examples:
                 mika:
                   summary: Mika response
                   value:
                     - name: Mika
+                      sex: Female
                       yearOfBirth: 2015
                       breed: [Staffordshire Bull Terrier]
                 harvey:
                   summary: Harvey response
                   value:
                     - name: Harvey
+                      sex: Male
                       yearOfBirth: 2002
                       breed: [German Shepherd, Labrador Retriever]
         "401":
@@ -328,7 +348,7 @@ paths:
               examples:
                 removedMika:
                   summary: Response for successfully removing Mika
-                  value: {}
+                  value: {"message": "Dog with ID mika-2015-0001 has been removed."}
         "401":
           $ref: "#/components/responses/401"
         "404":
@@ -415,8 +435,10 @@ components:
         breed:
           type: array
           description: Breed of the dog.
-          example: Staffordshire Bull Terrier
-          enum:
+          example: [Staffordshire Bull Terrier]
+          items:
+            type: string
+            enum:
              - Afghan Hound
              - Airedale Terrier
              - Akita
@@ -489,6 +511,7 @@ components:
              - Pointer
              - Polish Lowland Sheepdog
              - Pomeranian
+             - Poodle
              - Portuguese Water Dog
              - Pug
              - Puli
@@ -528,6 +551,7 @@ components:
              - Wirehaired Pointing Griffon
              - Xoloitzcuintli
              - Yorkshire Terrier
+          
         notes:
           type: string
           description: Additional notes about the dog.

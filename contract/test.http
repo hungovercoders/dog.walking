@@ -1,0 +1,35 @@
+GET http://0.0.0.0:8080/dogs
+
+###
+
+POST http://0.0.0.0:8080/dogs
+Content-Type: application/json
+
+{
+    "name": "Mika",
+    "breed": ["Staffordshire Bull Terrier"],
+    "yearOfBirth": 2016,
+    "sex": "Female",
+    "notes": "Very friendly and loves to play"
+}
+
+###
+
+GET http://0.0.0.0:8080/dogs/mika-2015-0001
+
+###
+
+PUT http://0.0.0.0:8080/dogs/mika-2015-0001
+Content-Type: application/json
+
+{
+    "name": "Mika",
+    "breed": ["Staffordshire Bull Terrier"],
+    "yearOfBirth": 2016,
+    "sex": "Female",
+    "notes": "Very friendly and loves to play"
+}
+
+###
+
+DELETE http://0.0.0.0:8080/dogs/mika-2015-0001
