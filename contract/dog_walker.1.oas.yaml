@@ -424,6 +424,71 @@ paths:
                     yearOfBirth: 2014
                     breed: [Staffordshire Bull Terrier]
                     notes: Mika is a good girl.
+        "400":
+          description: Bad request - validation errors.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: General error message for the bad request.
+                  details:
+                    type: array
+                    maxItems: 3
+                    items:
+                      type: string
+                      description: Specific error details.
+              examples:
+                invalidNameError:
+                  summary: Error response for invalid name
+                  value:
+                    error: Invalid request body
+                    details:
+                      - "The 'name' field must be between 2 and 50 characters long."
+                invalidSex:
+                  summary: Error response for invalid sex
+                  value:
+                    error: Invalid request body
+                    details:
+                      - The 'sex' field must be one of #/components/schemas/NewDog/properties/sex/enum."
+                invalidYearOfBirthError:
+                  summary: Error response for invalid year of birth
+                  value:
+                    error: Invalid request body
+                    details:
+                      - The 'yearOfBirth' field must be an integer between 2000 and 2025.
+                invalidBreedError:
+                  summary: Error response for invalid breed
+                  value:
+                    error: Invalid request body
+                    details:
+                      - "The 'breed' field must be one of #/components/schemas/NewDog/properties/breed/enum."
+                missingNameError:
+                  summary: Error response for missing name field
+                  value:
+                    error: Invalid request body
+                    details:
+                      - The 'name' field is required.
+                missingYearOfBirthError:
+                  summary: Error response for missing yearOfBirth field
+                  value:
+                    error: Invalid request body
+                    details:
+                      - The 'yearOfBirth' field is required.
+                missingBreedError:
+                  summary: Error response for missing breed field
+                  value:
+                    error: Invalid request body
+                    details:
+                      - The 'breed' field is required.
+                invalidNotesLength:
+                  summary: Error response for notes exceeding maximum length
+                  value:
+                    error: Invalid request body
+                    details:
+                      - The 'notes' field must be at most 100 characters long.
         "401":
           $ref: "#/components/responses/401"
         "404":

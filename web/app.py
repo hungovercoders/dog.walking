@@ -30,33 +30,13 @@ VALID_BREEDS = [
     "Xoloitzcuintli", "Yorkshire Terrier"
 ]
 
-st.title("Dog Walker API")
+st.title("Dog Walker Management System")
 
-# Add a new dog profile
-st.header("Add a New Dog Profile")
-name = st.text_input("Name")
-sex = st.selectbox("Sex", ["Male", "Female"])
-year_of_birth = st.number_input("Year of Birth", min_value=2000, max_value=2025, step=1)
-breed = st.multiselect("Breed", VALID_BREEDS)
-notes = st.text_area("Notes (optional)")
-
-if st.button("Add Dog"):
-    dog_data = {
-        "name": name,
-        "sex": sex,
-        "yearOfBirth": year_of_birth,
-        "breed": breed,
-        "notes": notes
-    }
-    response = requests.post(API_URL, json=dog_data)
-    if response.status_code == 201:
-        st.success("Dog added successfully!")
-    else:
-        st.error(f"Error: {response.json().get('error')}")
+tab1, tab2, tab3 = st.tabs([ "View All Dogs", "Add a Dog Profile", "Manage Dog Profiles" ])
 
 # List all dog profiles
-st.header("List All Dog Profiles")
-if st.button("Get All Dogs"):
+with tab1:
+    st.header("List All Dog Profiles")
     response = requests.get(API_URL)
     if response.status_code == 200:
         dogs = response.json().get("data", {}).get("dogs", [])
@@ -67,45 +47,75 @@ if st.button("Get All Dogs"):
     else:
         st.error(f"Error: {response.json().get('error')}")
 
-# Get details for a specific dog profile
-st.header("Get Dog Details")
-dog_id = st.text_input("Dog ID")
-if st.button("Get Dog Details"):
-    response = requests.get(f"{API_URL}/{dog_id}")
+# Add a new dog profile
+with tab2:
+    st.header("Add a New Dog Profile")
+    name = st.text_input("Name")
+    sex = st.selectbox("Sex", ["Male", "Female"])
+    year_of_birth = st.number_input("Year of Birth", min_value=2000, max_value=2025, step=1)
+    breed = st.multiselect("Breed", VALID_BREEDS)
+    notes = st.text_area("Notes (optional)")
+
+    if st.button("Add Dog"):
+        dog_data = {
+            "name": name,
+            "sex": sex,
+            "yearOfBirth": year_of_birth,
+            "breed": breed,
+            "notes": notes
+        }
+        response = requests.post(API_URL, json=dog_data)
+        if response.status_code == 201:
+            st.success("Dog added successfully!")
+        else:
+            st.error(f"Error: {response.json().get('error')}")
+
+with tab3:
+    st.header("Manage Dog Profiles")
+    response = requests.get(API_URL)
     if response.status_code == 200:
-        st.write(response.json())
+        dogs = response.json().get("data", {}).get("dogs", [])
+        dog_options = {dog["name"]: dog["id"] for dog in dogs}
+        update_dog_id = st.selectbox("Dog Profile", options=list(dog_options.keys()))
+        selected_dog_id = dog_options.get(update_dog_id, "")
+        
+        if selected_dog_id:
+            response = requests.get(f"{API_URL}/{selected_dog_id}")
+            if response.status_code == 200:
+                dog = response.json()
+                sex = st.selectbox("New Sex", ["Male", "Female"], index=["Male", "Female"].index(dog.get("sex", dog['sex'])))
+                year_of_birth = st.number_input("New Year of Birth", min_value=2000, max_value=2025, step=1, value=dog.get("yearOfBirth", dog['yearOfBirth']))
+                breed = st.multiselect("Breed", VALID_BREEDS, default=dog.get("breed", dog['breed']))
+                if dog.get('notes'):
+                    st.text_area("New Notes (optional)", value=dog.get("notes", dog['notes']))
+                else:
+                    st.text_area("New Notes (optional)")
+            else:
+                st.error(f"Error: {response.json().get('error')}")
     else:
         st.error(f"Error: {response.json().get('error')}")
+        selected_dog_id = ""
 
-# Update a dog profile
-st.header("Update Dog Profile")
-update_dog_id = st.text_input("Dog ID to Update")
-update_name = st.text_input("New Name")
-update_sex = st.selectbox("New Sex", ["Male", "Female"])
-update_year_of_birth = st.number_input("New Year of Birth", min_value=2000, max_value=2025, step=1)
-update_breed = st.multiselect("Breed", VALID_BREEDS)
-update_notes = st.text_area("New Notes (optional)")
+    if st.button("Update Dog"):
+        update_dog_data = {
+            "name": update_dog_id,
+            "sex": sex,
+            "yearOfBirth": year_of_birth,
+            "breed": breed,
+            "notes": notes if notes else ""
+        }
+        response = requests.put(f"{API_URL}/{update_dog_id}", json=update_dog_data)
+        print(response.json())
+        if response.status_code == 200:
+            st.success(f"Dog {update_dog_id} ({selected_dog_id}) updated successfully!")
+        else:
+            st.error(f"Error: {response.json().get('error')}")
 
-if st.button("Update Dog"):
-    update_dog_data = {
-        "name": update_name,
-        "sex": update_sex,
-        "yearOfBirth": update_year_of_birth,
-        "breed": update_breed,
-        "notes": update_notes
-    }
-    response = requests.put(f"{API_URL}/{update_dog_id}", json=update_dog_data)
-    if response.status_code == 200:
-        st.success("Dog updated successfully!")
-    else:
-        st.error(f"Error: {response.json().get('error')}")
+    if st.button("Delete Dog"):
+        response = requests.delete(f"{API_URL}/{selected_dog_id}")
+        if response.status_code == 204:
+            st.success(f"Dog {update_dog_id} ({selected_dog_id}) deleted successfully!")
+        else:
+            st.error(f"Error: {response.json().get('error')}")
 
-# Delete a dog profile
-st.header("Delete Dog Profile")
-delete_dog_id = st.text_input("Dog ID to Delete")
-if st.button("Delete Dog"):
-    response = requests.delete(f"{API_URL}/{delete_dog_id}")
-    if response.status_code == 204:
-        st.success("Dog deleted successfully!")
-    else:
-        st.error(f"Error: {response.json().get('error')}")
+
