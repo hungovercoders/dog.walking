@@ -168,8 +168,8 @@ paths:
                     yearOfBirth: 2002
                     breed: [German Shepherd, Labrador Retriever]
                     notes: Harvey is a good boy.
-        "400":
-          description: Bad request - validation errors.
+        "422":
+          description: Unprocessable Entity - validation errors.
           content:
             application/json:
               schema:
@@ -424,6 +424,7 @@ paths:
                     yearOfBirth: 2014
                     breed: [Staffordshire Bull Terrier]
                     notes: Mika is a good girl.
+        ## TODO: should I use 400 or 422? 422 more specific (?) but 400 more general so more widely understood?
         "400":
           description: Bad request - validation errors.
           content:
