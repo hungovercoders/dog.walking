@@ -1,4 +1,4 @@
-openapi: 3.0.3
+openapi: 3.1.0
 # security:
 #   - ApiKeyAuth: []
 info:
@@ -250,6 +250,7 @@ paths:
             application/json:
               schema:
                 type: object
+                additionalProperties: false
                 required:
                   - data
                   - pagination
@@ -377,10 +378,17 @@ paths:
           description: Dog removed successfully.
           content:
             application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Deletion message.
               examples:
-                removedMika:
-                  summary: Response for successfully removing Mika
-                  value: {"message": "Dog with ID mika-2015-0001 has been removed."}
+                removedDog:
+                  summary: Response for successfully removing dog
+                  value:
+                    description: "Dog profile has been removed."
         "401":
           $ref: "#/components/responses/401"
         "404":
@@ -511,6 +519,7 @@ components:
         - sex
         - yearOfBirth
         - breed
+      unevaluatedProperties: false
       properties:
         name:
           type: string
@@ -535,6 +544,7 @@ components:
           type: array
           description: Breed of the dog.
           example: [Staffordshire Bull Terrier]
+          maxItems: 3
           items:
             type: string
             enum:
@@ -650,17 +660,22 @@ components:
              - Wirehaired Pointing Griffon
              - Xoloitzcuintli
              - Yorkshire Terrier
-          
         notes:
           type: string
           description: Additional notes about the dog.
           example: Mika is a good girl.
           maxLength: 100
+        images:
+          type: array
+          description: Images of the dog.
+          items:
+            type: string
 
     DogWithId:
       allOf:
         - $ref: "#/components/schemas/Dog"
         - type: object
+          unevaluatedProperties: false
           properties:
             id:
               type: string
@@ -669,16 +684,24 @@ components:
 
     pagination:
       type: object
+      required:
+        - total
+        - currentPage
+        - perPage
+      additionalProperties: false
       properties:
         total:
           type: integer
           description: Total number of dogs available.
+          example: 4
         currentPage:
           type: integer
           description: The current page being viewed.
+          example: 1
         perPage:
           type: integer
           description: Number of dogs per page.
+          example: 10
 
   responses:
     "401":

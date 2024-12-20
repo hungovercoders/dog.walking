@@ -10,7 +10,8 @@ Content-Type: application/json
     "breed": ["Staffordshire Bull Terrier"],
     "yearOfBirth": 2016,
     "sex": "Female",
-    "notes": "Very friendly and loves to play"
+    "notes": "Very friendly and loves to play",
+    "blah": "mika-2015-0001"
 }
 
 ###

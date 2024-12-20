@@ -1,0 +1,107 @@
+openapi: 3.1.0
+servers:
+  - url: https://localhost:3000
+info:
+  description: Example API
+  title: Example API
+  version: 1.0.0
+  contact:
+    name: John Doe
+    email: griff@stuff.com
+tags:
+  - name: example
+    description: Example endpoints
+paths:
+  /example:
+    post:
+      tags:
+        - example
+      operationId: createExample
+      description: Example endpoint
+      summary: Example endpoint
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExtendedSchema'
+            examples:
+              validExample:
+                value:
+                  name: John Doe
+                  age: 30
+                  address: "123 Main St"
+              invalidExample:
+                value:
+                  name: John Doe
+                  age: 30
+                  address: "123 Main St"
+                  blah: "blah"
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+  /examples:
+    post:
+      tags:
+        - example
+      operationId: createExamples
+      description: Example endpoint
+      summary: Example endpoint
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BaseSchema'
+            examples:
+              validExamples:
+                value:
+                  name: John Doe
+                  age: 30
+              invalidExamples:
+                value:
+                  name: John Doe
+                  age: 30
+                  blah: "blah"
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+components:
+  schemas:
+    BaseSchema:
+      type: object
+      properties:
+        name:
+          type: string
+        age:
+          type: integer
+      required:
+        - name
+        - age
+      additionalProperties: false
+
+    ExtendedSchema:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseSchema'
+        - type: object
+          properties:
+            address:
+              type: string
+          required:
+            - address
+          additionalProperties: false
