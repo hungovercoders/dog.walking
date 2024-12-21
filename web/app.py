@@ -74,8 +74,9 @@ with tab2:
 # Manage dog profiles
 with tab3:
     st.header("Manage Dog Profiles")
-    query_params = st.experimental_get_query_params()
-    selected_dog_id = query_params.get("dog_id", [None])[0]
+    ## TODO: change to use query params as experimental is deprecated
+    dog_query_params = st.experimental_get_query_params()
+    selected_dog_id = dog_query_params.get("dog_id", [None])[0]
 
     response = requests.get(API_URL)
     if response.status_code == 200:
