@@ -55,6 +55,7 @@ with tab2:
     year_of_birth = st.number_input("Year of Birth", min_value=2000, max_value=2025, step=1)
     breed = st.multiselect("Breed", VALID_BREEDS, max_selections=3)
     notes = st.text_area("Notes (optional)")
+    image = st.file_uploader("Upload Image (optional)", type=["jpg", "png", "jpeg"])
 
     if st.button("Add Dog"):
         dog_data = {
@@ -70,15 +71,19 @@ with tab2:
         else:
             st.error(f"Error: {response.json().get('error')}")
 
+# Manage dog profiles
 with tab3:
     st.header("Manage Dog Profiles")
+    query_params = st.experimental_get_query_params()
+    selected_dog_id = query_params.get("dog_id", [None])[0]
+
     response = requests.get(API_URL)
     if response.status_code == 200:
         dogs = response.json().get("data", {}).get("dogs", [])
         dog_options = {dog["name"]: dog["id"] for dog in dogs}
-        update_dog_id = st.selectbox("Dog Profile", options=list(dog_options.keys()))
+        update_dog_id = st.selectbox("Dog Profile", options=list(dog_options.keys()), index=list(dog_options.values()).index(selected_dog_id) if selected_dog_id else 0)
         selected_dog_id = dog_options.get(update_dog_id, "")
-        
+
         if selected_dog_id:
             response = requests.get(f"{API_URL}/{selected_dog_id}")
             if response.status_code == 200:
@@ -86,10 +91,10 @@ with tab3:
                 sex = st.selectbox("New Sex", ["Male", "Female"], index=["Male", "Female"].index(dog.get("sex", dog['sex'])))
                 year_of_birth = st.number_input("New Year of Birth", min_value=2000, max_value=2025, step=1, value=dog.get("yearOfBirth", dog['yearOfBirth']))
                 breed = st.multiselect("Breed", VALID_BREEDS, default=dog.get("breed", dog['breed']))
-                if dog.get('notes'):
-                    st.text_area("New Notes (optional)", value=dog.get("notes", dog['notes']))
-                else:
-                    st.text_area("New Notes (optional)")
+                notes = st.text_area("New Notes (optional)", value=dog.get("notes", dog['notes']) if dog.get('notes') else "")
+                if dog.get('images'):
+                    st.image(dog.get('images')[0], caption="Current Image")
+                # st.file_uploader("Upload Image (optional)", type=["jpg", "png", "jpeg"])
             else:
                 st.error(f"Error: {response.json().get('error')}")
     else:
@@ -105,7 +110,6 @@ with tab3:
             "notes": notes if notes else ""
         }
         response = requests.put(f"{API_URL}/{update_dog_id}", json=update_dog_data)
-        print(response.json())
         if response.status_code == 200:
             st.success(f"Dog {update_dog_id} ({selected_dog_id}) updated successfully!")
         else:
@@ -117,5 +121,3 @@ with tab3:
             st.success(f"Dog {update_dog_id} ({selected_dog_id}) deleted successfully!")
         else:
             st.error(f"Error: {response.json().get('error')}")
-
-

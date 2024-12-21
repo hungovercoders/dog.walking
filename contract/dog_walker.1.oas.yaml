@@ -30,6 +30,24 @@ paths:
             schema:
               $ref: "#/components/schemas/Dog"
             examples:
+                mikaRequest:
+                  summary: Mika Request
+                  value:
+                    name: Mika
+                    sex: Female
+                    yearOfBirth: 2014
+                    breed: [Staffordshire Bull Terrier]
+                    images: ["https://raw.githubusercontent.com/hungovercoders/dog.walking/refs/heads/main/contract/images/staffie_01.jpg"]
+                    notes: Mika is a good girl
+                harveyRequest:
+                  summary: Harvey Request
+                  value:
+                    name: Harvey
+                    sex: Male
+                    yearOfBirth: 2002
+                    breed: [German Shepherd, Labrador Retriever]
+                    images: ["https://raw.githubusercontent.com/hungovercoders/dog.walking/refs/heads/main/contract/images/shepherd_lab.jpg"]
+                    notes: Harvey is a good boy
                 mikaRequestWithoutNotes:
                   summary: Mika Request
                   value:
@@ -53,12 +71,28 @@ paths:
                     notes: Mika is a good girl
                     breed: [Staffordshire Bull Terrier]
                 harveyRequestWithNotes:
-                  summary: Prancer Request with notes
+                  summary: Harvey Request with notes
                   value:
                     name: Harvey
                     sex: Male
                     yearOfBirth: 2002
                     notes: Harvey is a good boy
+                    breed: [German Shepherd, Labrador Retriever]
+                mikaRequestWithImages:
+                  summary: Mika Request with Notes
+                  value:
+                    name: Mika
+                    sex: Female
+                    yearOfBirth: 2014
+                    images: ["https://raw.githubusercontent.com/hungovercoders/dog.walking/refs/heads/main/contract/images/staffie_01.jpg"]
+                    breed: [Staffordshire Bull Terrier]
+                harveyRequestWithImages:
+                  summary: Prancer Request with notes
+                  value:
+                    name: Harvey
+                    sex: Male
+                    yearOfBirth: 2002
+                    images: ["https://raw.githubusercontent.com/hungovercoders/dog.walking/refs/heads/main/contract/images/shepherd_lab.jpg"]
                     breed: [German Shepherd, Labrador Retriever]
                 # TODO: unable to ignore invalid requests
                 # invalidNameRequest:
@@ -338,20 +372,24 @@ paths:
               schema:
                 $ref: "#/components/schemas/Dog"
               examples:
-                mika:
-                  summary: Mika response
+                mikaRequest:
+                  summary: Mika Request
                   value:
                     name: Mika
                     sex: Female
-                    yearOfBirth: 2015
+                    yearOfBirth: 2014
                     breed: [Staffordshire Bull Terrier]
-                harvey:
-                  summary: Harvey response
+                    images: ["https://raw.githubusercontent.com/hungovercoders/dog.walking/refs/heads/main/contract/images/staffie_01.jpg"]
+                    notes: Mika is a good girl
+                harveyRequest:
+                  summary: Harvey Request
                   value:
-                      name: Harvey
-                      sex: Male
-                      yearOfBirth: 2002
-                      breed: [German Shepherd, Labrador Retriever]
+                    name: Harvey
+                    sex: Male
+                    yearOfBirth: 2002
+                    breed: [German Shepherd, Labrador Retriever]
+                    images: ["https://raw.githubusercontent.com/hungovercoders/dog.walking/refs/heads/main/contract/images/shepherd_lab.jpg"]
+                    notes: Harvey is a good boy
         "401":
           $ref: "#/components/responses/401"
         "404":
