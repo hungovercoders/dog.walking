@@ -250,7 +250,6 @@ paths:
             application/json:
               schema:
                 type: object
-                additionalProperties: false
                 required:
                   - data
                   - pagination
@@ -519,7 +518,7 @@ components:
         - sex
         - yearOfBirth
         - breed
-      unevaluatedProperties: false
+      # unevaluatedProperties: false TODO: figure out how to use this withouting breaking inhrited in allOf
       properties:
         name:
           type: string
@@ -672,10 +671,11 @@ components:
             type: string
 
     DogWithId:
+      type: object
+      unevaluatedProperties: false
       allOf:
         - $ref: "#/components/schemas/Dog"
         - type: object
-          unevaluatedProperties: false
           properties:
             id:
               type: string
@@ -686,22 +686,22 @@ components:
       type: object
       required:
         - total
-        - currentPage
-        - perPage
+        # - currentPage
+        # - perPage
       additionalProperties: false
       properties:
         total:
           type: integer
           description: Total number of dogs available.
           example: 4
-        currentPage:
-          type: integer
-          description: The current page being viewed.
-          example: 1
-        perPage:
-          type: integer
-          description: Number of dogs per page.
-          example: 10
+      #   currentPage:
+      #     type: integer
+      #     description: The current page being viewed.
+      #     example: 1
+      #   perPage:
+      #     type: integer
+      #     description: Number of dogs per page.
+      #     example: 10
 
   responses:
     "401":

@@ -92,10 +92,11 @@ components:
       required:
         - name
         - age
-      additionalProperties: false
+
 
     ExtendedSchema:
       type: object
+      unevaluatedProperties: false
       allOf:
         - $ref: '#/components/schemas/BaseSchema'
         - type: object
@@ -104,4 +105,3 @@ components:
               type: string
           required:
             - address
-          additionalProperties: false

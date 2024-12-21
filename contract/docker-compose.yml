@@ -11,7 +11,7 @@ services:
       - ./.spectral.yaml:/tmp/.spectral.yaml:ro
   prism:
     image: stoplight/prism:4
-    command: 'mock -h 0.0.0.0 /tmp/dog_walker.1.oas.yaml'
+    command: 'mock -h 0.0.0.0 -d /tmp/dog_walker.1.oas.yaml'
     volumes:
       - ./dog_walker.1.oas.yaml:/tmp/dog_walker.1.oas.yaml:ro
     ports:

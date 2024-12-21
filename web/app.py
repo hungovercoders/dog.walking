@@ -53,7 +53,7 @@ with tab2:
     name = st.text_input("Name")
     sex = st.selectbox("Sex", ["Male", "Female"])
     year_of_birth = st.number_input("Year of Birth", min_value=2000, max_value=2025, step=1)
-    breed = st.multiselect("Breed", VALID_BREEDS)
+    breed = st.multiselect("Breed", VALID_BREEDS, max_selections=3)
     notes = st.text_area("Notes (optional)")
 
     if st.button("Add Dog"):
