@@ -5,7 +5,7 @@ services:
 
   spectral: 
     image: stoplight/spectral:5
-    command: 'lint /tmp/dog_walker.1.oas.yaml'
+    command: 'lint /tmp/dog_walker.1.oas.yaml --ruleset /tmp/.spectral.yaml'
     volumes:
       - ./dog_walker.1.oas.yaml:/tmp/dog_walker.1.oas.yaml:ro
       - ./.spectral.yaml:/tmp/.spectral.yaml:ro

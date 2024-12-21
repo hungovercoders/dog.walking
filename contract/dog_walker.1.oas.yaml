@@ -4,8 +4,9 @@ openapi: 3.0.0
 info:
   title: Dog Walker API
   description: | 
-    Dog profile and scheduler management for dog walkers.
-    ![Domain Model](./images/domain_model.drawio.png)
+    Dog profile and scheduler management for dog walkers.<br>
+    ## Domain Model
+    ![Domain Model](https://raw.githubusercontent.com/hungovercoders/dog.walking/refs/heads/main/contract/images/domain_model.drawio.png)
   version: 1.0.0
   contact:
     name: Dog Walker API Support
@@ -37,7 +38,7 @@ paths:
                   value:
                     name: Mika
                     sex: Female
-                    yearOfBirth: 2014
+                    year_Of_Birth: 2014
                     breed: [Staffordshire Bull Terrier]
                     images: ["https://raw.githubusercontent.com/hungovercoders/dog.walking/refs/heads/main/contract/images/staffie_01.jpg"]
                     notes: Mika is a good girl
@@ -46,7 +47,7 @@ paths:
                   value:
                     name: Harvey
                     sex: Male
-                    yearOfBirth: 2002
+                    year_Of_Birth: 2002
                     breed: [German Shepherd, Labrador Retriever]
                     images: ["https://raw.githubusercontent.com/hungovercoders/dog.walking/refs/heads/main/contract/images/shepherd_lab.jpg"]
                     notes: Harvey is a good boy
@@ -55,21 +56,21 @@ paths:
                   value:
                     name: Mika
                     sex: Female
-                    yearOfBirth: 2014
+                    year_Of_Birth: 2014
                     breed: [Staffordshire Bull Terrier]
                 harveyRequestWithoutNotes:
                   summary: Harvey Request
                   value:
                     name: Harvey
                     sex: Male
-                    yearOfBirth: 2002
+                    year_Of_Birth: 2002
                     breed: [German Shepherd, Labrador Retriever]
                 mikaRequestWithNotes:
                   summary: Mika Request with Notes
                   value:
                     name: Mika
                     sex: Female
-                    yearOfBirth: 2014
+                    year_Of_Birth: 2014
                     notes: Mika is a good girl
                     breed: [Staffordshire Bull Terrier]
                 harveyRequestWithNotes:
@@ -77,7 +78,7 @@ paths:
                   value:
                     name: Harvey
                     sex: Male
-                    yearOfBirth: 2002
+                    year_Of_Birth: 2002
                     notes: Harvey is a good boy
                     breed: [German Shepherd, Labrador Retriever]
                 mikaRequestWithImages:
@@ -85,7 +86,7 @@ paths:
                   value:
                     name: Mika
                     sex: Female
-                    yearOfBirth: 2014
+                    year_Of_Birth: 2014
                     images: ["https://raw.githubusercontent.com/hungovercoders/dog.walking/refs/heads/main/contract/images/staffie_01.jpg"]
                     breed: [Staffordshire Bull Terrier]
                 harveyRequestWithImages:
@@ -93,7 +94,7 @@ paths:
                   value:
                     name: Harvey
                     sex: Male
-                    yearOfBirth: 2002
+                    year_Of_Birth: 2002
                     images: ["https://raw.githubusercontent.com/hungovercoders/dog.walking/refs/heads/main/contract/images/shepherd_lab.jpg"]
                     breed: [German Shepherd, Labrador Retriever]
                 # TODO: unable to ignore invalid requests
@@ -103,40 +104,40 @@ paths:
                 #   value:
                 #     name: Mikaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
                 #     sex: Female
-                #     yearOfBirth: 2002
+                #     year_Of_Birth: 2002
                 #     breed: [Staffordshire Bull Terrier]
                 # invalidSexRequest:
                 #   summary: Invalid sex request
                 #   value:
                 #     name: Mika
                 #     sex: Cat
-                #     yearOfBirth: 2014
+                #     year_Of_Birth: 2014
                 #     breed: [Staffordshire Bull Terrier]
-                # invalidYearOfBirthRequest:
+                # invalidyear_Of_BirthRequest:
                 #   summary: Invalid year of birth request
                 #   value:
                 #     name: Mika
                 #     sex: Female
-                #     yearOfBirth: 1900
+                #     year_Of_Birth: 1900
                 #     breed: [Staffordshire Bull Terrier]
                 # invalidBreedRequest:
                 #   summary: Invalid breed request
                 #   value:
                 #     name: Mika
                 #     sex: Female
-                #     yearOfBirth: 2014
+                #     year_Of_Birth: 2014
                 #     breed: [Persian]
                 # missingName:
                 #   summary: Request with missing name field
                 #   value:
                 #     sex: Female
-                #     yearOfBirth: 2014
+                #     year_Of_Birth: 2014
                 #     breed: [Staffordshire Bull Terrier]
                 # missingSex:
                 #   summary: Request with missing sex field
                 #   value:
                 #     name: Mika
-                #     yearOfBirth: 2014
+                #     year_Of_Birth: 2014
                 #     breed: [Staffordshire Bull Terrier]
                 # missingAge:
                 #   summary: Request with missing year of birth field
@@ -149,13 +150,13 @@ paths:
                 #   value:
                 #     sex: Female
                 #     name: Mika
-                #     yearOfBirth: 2014
+                #     year_Of_Birth: 2014
                 # invalidNotesLength:
                 #   summary: Request with notes exceeding maximum length
                 #   value:
                 #     name: Mika
                 #     sex: Female
-                #     yearOfBirth: 2014
+                #     year_Of_Birth: 2014
                 #     breed: [Staffordshire Bull Terrier]
                 #     notes: >
                 #      Mika is a good girl. Mika is a good girl. Mika is a good girl. Mika is a good girl. Mika is a good girl. Mika is a good girl. 
@@ -176,7 +177,7 @@ paths:
                     id: mika-2015-0001
                     name: Mika
                     sex: Female
-                    yearOfBirth: 2014
+                    year_Of_Birth: 2014
                     breed: [Staffordshire Bull Terrier]
                 harvey:
                   summary: Response for successfully adding Harvey
@@ -184,7 +185,7 @@ paths:
                     id: harvey-2002-0001
                     name: Harvey
                     sex: Male
-                    yearOfBirth: 2002
+                    year_Of_Birth: 2002
                     breed: [German Shepherd, Labrador Retriever]
                 successfulMikaResponseWithNotes:
                   summary: Response for successfully adding Mika with notes
@@ -192,7 +193,7 @@ paths:
                     id: mika-2015-0001
                     name: Mika
                     sex: Female
-                    yearOfBirth: 2014
+                    year_Of_Birth: 2014
                     breed: [Staffordshire Bull Terrier]
                     notes: Mika is a good girl.
                 successfulHarveyResponseWithNotes:
@@ -201,7 +202,7 @@ paths:
                     id: harvey-2002-0001
                     name: Harvey
                     sex: Male
-                    yearOfBirth: 2002
+                    year_Of_Birth: 2002
                     breed: [German Shepherd, Labrador Retriever]
                     notes: Harvey is a good boy.
         "422":
@@ -233,12 +234,12 @@ paths:
                     error: Invalid request body
                     details:
                       - The 'sex' field must be one of #/components/schemas/NewDog/properties/sex/enum."
-                invalidYearOfBirthError:
+                invalidyear_Of_BirthError:
                   summary: Error response for invalid year of birth
                   value:
                     error: Invalid request body
                     details:
-                      - The 'yearOfBirth' field must be an integer between 2000 and 2025.
+                      - The 'year_Of_Birth' field must be an integer between 2000 and 2025.
                 invalidBreedError:
                   summary: Error response for invalid breed
                   value:
@@ -251,12 +252,12 @@ paths:
                     error: Invalid request body
                     details:
                       - The 'name' field is required.
-                missingYearOfBirthError:
-                  summary: Error response for missing yearOfBirth field
+                missingyear_Of_BirthError:
+                  summary: Error response for missing year_Of_Birth field
                   value:
                     error: Invalid request body
                     details:
-                      - The 'yearOfBirth' field is required.
+                      - The 'year_Of_Birth' field is required.
                 missingBreedError:
                   summary: Error response for missing breed field
                   value:
@@ -313,22 +314,22 @@ paths:
                       - id: mika-2015-0001
                         name: Mika
                         sex: Female
-                        yearOfBirth: 2015
+                        year_Of_Birth: 2015
                         breed: [Staffordshire Bull Terrier]
                       - id: harvey-2002-0001
                         name: Harvey
                         sex: Male
-                        yearOfBirth: 2002
+                        year_Of_Birth: 2002
                         breed: [German Shepherd, Labrador Retriever]
                       - id: betty-2020-0001
                         name: Betty
                         sex: Female
-                        yearOfBirth: 2020
+                        year_Of_Birth: 2020
                         breed: [Poodle, Labrador Retriever]
                       - id: bandit-2014-0001
                         name: Bandit
                         sex: Male
-                        yearOfBirth: 2014
+                        year_Of_Birth: 2014
                         breed: [Cocker Spaniel]
                     pagination:
                       total: 4
@@ -342,7 +343,7 @@ paths:
                         - id: mika-2015-0001
                           name: Mika
                           sex: Female
-                          yearOfBirth: 2015
+                          year_Of_Birth: 2015
                           breed: [Staffordshire Bull Terrier]
                     pagination:
                       total: 1
@@ -379,7 +380,7 @@ paths:
                   value:
                     name: Mika
                     sex: Female
-                    yearOfBirth: 2014
+                    year_Of_Birth: 2014
                     breed: [Staffordshire Bull Terrier]
                     images: ["https://raw.githubusercontent.com/hungovercoders/dog.walking/refs/heads/main/contract/images/staffie_01.jpg"]
                     notes: Mika is a good girl
@@ -388,7 +389,7 @@ paths:
                   value:
                     name: Harvey
                     sex: Male
-                    yearOfBirth: 2002
+                    year_Of_Birth: 2002
                     breed: [German Shepherd, Labrador Retriever]
                     images: ["https://raw.githubusercontent.com/hungovercoders/dog.walking/refs/heads/main/contract/images/shepherd_lab.jpg"]
                     notes: Harvey is a good boy
@@ -468,7 +469,7 @@ paths:
                     id: mika-2015-0001
                     name: Mika
                     sex: Female
-                    yearOfBirth: 2014
+                    year_Of_Birth: 2014
                     breed: [Staffordshire Bull Terrier]
                     notes: Mika is a good girl.
         ## TODO: should I use 400 or 422? 422 more specific (?) but 400 more general so more widely understood?
@@ -501,12 +502,12 @@ paths:
                     error: Invalid request body
                     details:
                       - The 'sex' field must be one of #/components/schemas/NewDog/properties/sex/enum."
-                invalidYearOfBirthError:
+                invalidyear_Of_BirthError:
                   summary: Error response for invalid year of birth
                   value:
                     error: Invalid request body
                     details:
-                      - The 'yearOfBirth' field must be an integer between 2000 and 2025.
+                      - The 'year_Of_Birth' field must be an integer between 2000 and 2025.
                 invalidBreedError:
                   summary: Error response for invalid breed
                   value:
@@ -519,12 +520,12 @@ paths:
                     error: Invalid request body
                     details:
                       - The 'name' field is required.
-                missingYearOfBirthError:
-                  summary: Error response for missing yearOfBirth field
+                missingyear_Of_BirthError:
+                  summary: Error response for missing year_Of_Birth field
                   value:
                     error: Invalid request body
                     details:
-                      - The 'yearOfBirth' field is required.
+                      - The 'year_Of_Birth' field is required.
                 missingBreedError:
                   summary: Error response for missing breed field
                   value:
@@ -556,7 +557,7 @@ components:
       required:
         - name
         - sex
-        - yearOfBirth
+        - year_Of_Birth
         - breed
       # unevaluatedProperties: false TODO: figure out how to use this withouting breaking inhrited in allOf
       properties:
@@ -573,7 +574,7 @@ components:
           enum:
             - Male
             - Female
-        yearOfBirth:
+        year_Of_Birth:
           type: integer
           description: Year of birth of the dog.
           example: 2015
