@@ -1,9 +1,11 @@
-openapi: 3.1.0
+openapi: 3.0.0
 # security:
 #   - ApiKeyAuth: []
 info:
   title: Dog Walker API
-  description: Dog profile and scheduler management for dog walkers.
+  description: | 
+    Dog profile and scheduler management for dog walkers.
+    ![Domain Model](./images/domain_model.drawio.png)
   version: 1.0.0
   contact:
     name: Dog Walker API Support
@@ -710,7 +712,7 @@ components:
 
     DogWithId:
       type: object
-      unevaluatedProperties: false
+      # unevaluatedProperties: false
       allOf:
         - $ref: "#/components/schemas/Dog"
         - type: object
