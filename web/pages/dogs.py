@@ -30,7 +30,7 @@ VALID_BREEDS = [
     "Xoloitzcuintli", "Yorkshire Terrier"
 ]
 
-st.title("Dog Walker Management System")
+st.title("Dogs")
 
 tab1, tab2, tab3 = st.tabs([ "View All Dogs", "Add a Dog Profile", "Manage Dog Profiles" ])
 

@@ -1,5 +1,5 @@
 # Streamlit
 
 ```bash
-streamlit run app.py
+streamlit run main.py
 ```
